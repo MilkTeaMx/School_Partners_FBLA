@@ -26,7 +26,6 @@ const LoginModal = () => {
   const registerModal = useRegisterModal();
   const [isLoading, setIsLoading] = useState(false);
 
-  //register is automatically provided by the form function
   const { 
     register, 
     handleSubmit,
@@ -55,6 +54,7 @@ const LoginModal = () => {
         toast.success('Logged in');
         router.refresh();
         loginModal.onClose();
+        console.log('logged in')
       }
       
       if (callback?.error) {
@@ -80,7 +80,7 @@ const LoginModal = () => {
         disabled={isLoading}
         register={register}  
         errors={errors}
-        required={true}
+        required
       />
       <Input
         id="password"
@@ -89,7 +89,7 @@ const LoginModal = () => {
         disabled={isLoading}
         register={register}
         errors={errors}
-        required={true}
+        required
       />
     </div>
   )
@@ -111,7 +111,7 @@ const LoginModal = () => {
       />
       <div className="
       text-neutral-500 text-center mt-4 font-light">
-        <p>First time using CommonAct?
+        <p>First time using Airbnb?
           <span 
             onClick={onToggle} 
             className="

@@ -12,7 +12,7 @@ import {
   useForm
 } from "react-hook-form";
 
-//import useLoginModal from "@/app/hooks/useLoginModal";
+import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 
 import Modal from "./Modals";
@@ -20,7 +20,7 @@ import Input from "../inputs/Input";
 import Heading from "../Heading";
 import Button from "../Button";
 import LoginModal from "./LoginModal";
-import useLoginModal from "@/app/hooks/useLoginModal";
+
 
 const RegisterModal= () => {
   const registerModal = useRegisterModal();
@@ -47,6 +47,7 @@ const RegisterModal= () => {
     axios.post('/api/register', data)
     .then(() => {
       toast.success('Registered!');
+      console.log('registered')
       registerModal.onClose();
       loginModal.onOpen();
     })

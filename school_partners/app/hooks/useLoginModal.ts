@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 
+//This is mainly controlling when login / register modals are open
+
 interface LoginModalStore {
   isOpen: boolean;
   onOpen: () => void;
