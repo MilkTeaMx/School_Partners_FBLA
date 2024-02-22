@@ -37,13 +37,8 @@ const ListingReservation: React.FC<
       "
     >
       <div className="
-      flex flex-row items-center gap-1 p-4">
-        <div className="text-2xl font-semibold">
-          $ {price}
-        </div>
-        <div className="font-light text-neutral-600">
-          night
-        </div>
+      flex flex-row items-center gap-1 p-4 text-center text-lg">
+        Set Up A Meeting
       </div>
       <hr />
       <Calendar
@@ -56,7 +51,7 @@ const ListingReservation: React.FC<
       <div className="p-4">
         <Button 
           disabled={disabled} 
-          label="Reserve" 
+          label="Set" 
           onClick={onSubmit}
         />
       </div>
@@ -72,12 +67,6 @@ const ListingReservation: React.FC<
           text-lg
         "
       >
-        <div>
-          Total
-        </div>
-        <div>
-          $ {totalPrice}
-        </div>
       </div>
     </div>
    );

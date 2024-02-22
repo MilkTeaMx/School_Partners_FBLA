@@ -15,6 +15,7 @@ import {
 import HeartButton from "../HeartButton";
 import Button from "../Button";
 import ClientOnly from "../ClientOnly";
+import ListingCategory from "./ListingCategory";
 
 interface ListingCardProps {
   data: SafeListing;
@@ -70,55 +71,25 @@ const ListingCard: React.FC<ListingCardProps> = ({
     return `${format(start, 'PP')} - ${format(end, 'PP')}`;
   }, [reservation]);
 
-  return (
+  
+return (
     <div 
       onClick={() => router.push(`/listings/${data.id}`)} 
-      className="col-span-1 cursor-pointer group"
+      className="w-full cursor-pointer group border-b border-gray-200 py-4 relative"
     >
-      <div className="flex flex-col gap-2 w-full">
-        <div 
-          className="
-            aspect-square 
-            w-full 
-            relative 
-            overflow-hidden 
-            rounded-xl
-          "
-        >
-          <Image
-            fill
-            className="
-              object-cover 
-              h-full 
-              w-full 
-              group-hover:scale-110 
-              transition
-            "
-            src={data.imageSrc}
-            alt="Listing"
-          />
-          <div className="
-            absolute
-            top-3
-            right-3
-          ">
-            <HeartButton 
-              listingId={data.id} 
-              currentUser={currentUser}
-            />
-          </div>
-        </div>
+      <div className="flex items-center gap-4">
         <div className="font-semibold text-lg"> 
           {data.title}
         </div>
-        <div >
-          {location?.region}, {location?.label}
+        <div className="border-l border-gray-300 h-6 mx-3"></div> {/* Vertical line */}
+        <div className="flex flex-col">
+          <div>
+            {location?.region}, {location?.label}
+          </div>
+          <div className="font-light text-neutral-500">
+            {reservationDate || data.category} - {data.typeOfOrganization}
+          </div>
         </div>
-        <div className="font-light text-neutral-500">
-          {reservationDate || data.category}  /  {data.typeOfOrganization}
-        </div>
-      
-    
         {onAction && actionLabel && (
           <Button
             disabled={disabled}
@@ -127,9 +98,23 @@ const ListingCard: React.FC<ListingCardProps> = ({
             onClick={handleCancel}
           />
         )}
+        
+        <div className="border-l border-gray-300 h-6 mx-3"></div> {/* Vertical line */}
+        <div>
+
+          {data.description}
+        </div>
+
+        <div className="absolute top-3 right-3">
+          <HeartButton 
+            listingId={data.id} 
+            currentUser={currentUser}
+          />
+        </div>
       </div>
     </div>
-   );
+  );
 }
+
  
 export default ListingCard;

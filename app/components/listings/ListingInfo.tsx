@@ -16,9 +16,9 @@ const Map = dynamic(() => import('../Map'), {
 interface ListingInfoProps {
   user: SafeUser,
   description: string;
-  guestCount: number;
-  roomCount: number;
-  bathroomCount: number;
+  email: string;
+  phoneNumber: string,
+  typeOfOrganization: string,
   category: {
     icon: IconType,
     label: string;
@@ -30,9 +30,9 @@ interface ListingInfoProps {
 const ListingInfo: React.FC<ListingInfoProps> = ({
   user,
   description,
-  guestCount,
-  roomCount,
-  bathroomCount,
+  email,
+  phoneNumber,
+  typeOfOrganization,
   category,
   locationValue,
 }) => {
@@ -42,7 +42,9 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
 
   return ( 
     <div className="col-span-4 flex flex-col gap-8">
+      <hr />
       <div className="flex flex-col gap-2">
+        <hr />
         <div 
           className="
             text-xl 
@@ -51,29 +53,27 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
             flex-row 
             items-center
             gap-2
+            
           "
         >
-          <div>Hosted by {user?.name}</div>
+          <div>Organized by {user?.name}</div>
           <Avatar src={user?.image} />
         </div>
         <div className="
             flex 
-            flex-row 
-            items-center 
+            flex-col
+            items-left
             gap-4 
-            font-light
+           
             text-neutral-500
           "
         >
-          <div>
-            {guestCount} guests
+          <div className="pt-4">
+            Get In Touch: Set up a formal meeting
           </div>
-          <div>
-            {roomCount} rooms
-          </div>
-          <div>
-            {bathroomCount} bathrooms
-          </div>
+          <div> Call or Text at: {phoneNumber} </div>
+          <div> Email at: {email} </div>
+          <div> Organization: {typeOfOrganization} </div>
         </div>
       </div>
       <hr />

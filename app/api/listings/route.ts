@@ -14,15 +14,17 @@ export async function POST(
 
   const body = await request.json();
   const { 
+  
+ 
+    category,
+    typeOfOrganization,
+    phoneNumber,
+    email,
+    location,
+    imageSrc,
+    price,
     title,
     description,
-    imageSrc,
-    category,
-    roomCount,
-    bathroomCount,
-    guestCount,
-    location,
-    price,
    } = body;
 
   Object.keys(body).forEach((value: any) => {
@@ -37,9 +39,9 @@ export async function POST(
       description,
       imageSrc,
       category,
-      roomCount,
-      bathroomCount,
-      guestCount,
+      typeOfOrganization,
+      phoneNumber,
+      email,
       locationValue: location.value,
       price: parseInt(price, 10),
       userId: currentUser.id

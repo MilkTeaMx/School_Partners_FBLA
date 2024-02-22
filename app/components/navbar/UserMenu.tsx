@@ -7,11 +7,11 @@ import { useRouter } from "next/navigation";
 
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
-import useRentModal from "@/app/hooks/useRentModal";
 import { SafeUser } from "@/app/types";
 
 import MenuItem from "./MenuItem";
 import Avatar from "../Avatar";
+import usePartnerModal from "@/app/hooks/usePartnerModal";
 
 interface UserMenuProps {
   currentUser?: SafeUser | null
@@ -24,7 +24,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
 
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
-  const rentModal = useRentModal();
+  const partnerModal = usePartnerModal();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -37,8 +37,8 @@ const UserMenu: React.FC<UserMenuProps> = ({
       return loginModal.onOpen();
     }
 
-    rentModal.onOpen();
-  }, [loginModal, rentModal, currentUser]);
+    partnerModal.onOpen();
+  }, [loginModal, partnerModal, currentUser]);
 
   return ( 
     <div className="relative">
@@ -58,7 +58,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
             cursor-pointer
           "
         >
-          Airbnb your home
+          Partner Up
         </div>
         <div 
         onClick={toggleOpen}
@@ -103,24 +103,24 @@ const UserMenu: React.FC<UserMenuProps> = ({
             {currentUser ? (
               <>
                 <MenuItem 
-                  label="My trips" 
-                  onClick={() => router.push('/trips')}
+                  label="My Partnerships" 
+                  onClick={() => router.push('/partnerships')}
                 />
                 <MenuItem 
-                  label="My favorites" 
+                  label="My Favorites" 
                   onClick={() => router.push('/favorites')}
                 />
                 <MenuItem 
-                  label="My reservations" 
+                  label="My Meetings" 
                   onClick={() => router.push('/reservations')}
                 />
                 <MenuItem 
-                  label="My properties" 
+                  label="My Schools" 
                   onClick={() => router.push('/properties')}
                 />
                 <MenuItem 
-                  label="Airbnb your home" 
-                  onClick={rentModal.onOpen}
+                  label="Partner Up" 
+                  onClick={partnerModal.onOpen}
                 />
                 <hr />
                 <MenuItem 

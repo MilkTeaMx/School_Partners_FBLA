@@ -8,26 +8,11 @@ import { differenceInDays } from 'date-fns';
 import useSearchModal from '@/app/hooks/useSearchModal';
 import useCountries from '@/app/hooks/useCountries';
 
-const Search = () => {
-  const searchModal = useSearchModal();
-  const params = useSearchParams();
-  const { getByValue } = useCountries();
-
-  const  locationValue = params?.get('locationValue'); 
-
-  const locationLabel = useMemo(() => {
-    if (locationValue) {
-      return getByValue(locationValue as string)?.label;
-    }
-
-    return 'Anywhere';
-  }, [locationValue, getByValue]);
-
-
-
+const ToggleListGrid = () => {
+ 
   return ( 
     <div
-      onClick={searchModal.onOpen}
+      onClick={() => {}}
       className="
         border-[1px] 
         w-full 
@@ -55,7 +40,7 @@ const Search = () => {
             px-6
           "
         >
-          {locationLabel}
+          Test
         </div>
         <div 
           className="
@@ -100,4 +85,4 @@ const Search = () => {
   );
 }
  
-export default Search;
+export default ToggleListGrid;

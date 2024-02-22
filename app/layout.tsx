@@ -4,7 +4,7 @@ import Navbar from '@/app/components/navbar/Navbar';
 import LoginModal from '@/app/components/modals/LoginModal';
 import RegisterModal from '@/app/components/modals/RegisterModal';
 import SearchModal from '@/app/components/modals/SearchModal';
-import RentModal from '@/app/components/modals/RentModal';
+import RentModal from '@/app/components/modals/PartnerModal';
 
 import ToasterProvider from '@/app/providers/ToasterProvider';
 

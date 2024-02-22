@@ -5,6 +5,7 @@ import Container from "../Container";
 import Logo from "./Logo";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
+import ToggleListGrid from "./ToggleListGrid";
 
 interface NavbarProps {
   currentUser?: SafeUser | null;
@@ -33,6 +34,7 @@ const Navbar: React.FC<NavbarProps> = ({
           "
         >
           <Logo />
+     
           <Search />
           <UserMenu currentUser={currentUser} />
         </div>
