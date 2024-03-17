@@ -70,7 +70,7 @@ const ChatbotClient: React.FC<ChatbotProps> = ({listings}) => {
                             ?
                             <h3 className="text-lg font-semibold mt-7 ,">
                                 Virtual Assistant - 
-                            </h3>
+                            </h3> 
                             :
                             <h3 className="text-lg font-semibold mt-7">
                                 User
