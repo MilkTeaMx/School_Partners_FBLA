@@ -7,9 +7,13 @@ import { IoMdChatbubbles } from "react-icons/io";
 
 interface ChatbotProps {
     listings?: any
+    currentUser?: any
 }
-const ChatbotWindow: React.FC<ChatbotProps> = ({listings}) => {
- 
+const ChatbotWindow: React.FC<ChatbotProps> = ({currentUser, listings}) => {
+
+    if (currentUser == null) {
+      return (<></>)
+    }
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleOpen = useCallback(() => {

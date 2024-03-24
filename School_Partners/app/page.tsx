@@ -9,6 +9,7 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import ClientOnly from "./components/ClientOnly";
 import ListingsContainer from "./components/listings/ListingContainer";
 import ChatbotClient from "./chatbot/ChatbotClient";
+import LandingState from "./components/LandingState";
 
 interface HomeProps {
   searchParams: IListingsParams
@@ -17,14 +18,25 @@ interface HomeProps {
 const Home = async ({ searchParams }: HomeProps) => {
   const listings = await getListings(searchParams);
   const currentUser = await getCurrentUser();
+  
+  if (currentUser == null) {
+    console.log("SDFSDFSDF")
+    return (
+      <ClientOnly>
+        <LandingState />
+      </ClientOnly>
+    )
+  }
 
   if (listings.length === 0) {
+    console.log("AAAAAAAAAASDFSDFSDF")
     return (
       <ClientOnly>
         <EmptyState showReset />
       </ClientOnly>
     );
   }
+
 
   return (
     <ClientOnly>

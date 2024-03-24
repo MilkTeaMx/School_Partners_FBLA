@@ -4,24 +4,32 @@ import qs from 'query-string';
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 import { IconType } from "react-icons";
+import useLoginModal from "../hooks/useLoginModal";
 
 interface CategoryBoxProps {
   icon: IconType,
   label: string;
   selected?: boolean;
+  currentUser?: any;
 }
 
 const CategoryBox: React.FC<CategoryBoxProps> = ({
   icon: Icon,
   label,
   selected,
+  currentUser
 }) => {
   const router = useRouter();
   const params = useSearchParams();
+  const loginModal = useLoginModal();
 
   const handleClick = useCallback(() => {
     let currentQuery = {};
     
+    if (currentUser == null) {
+      return loginModal.onOpen();
+    }
+
     if (params) {
       currentQuery = qs.parse(params.toString())
     }

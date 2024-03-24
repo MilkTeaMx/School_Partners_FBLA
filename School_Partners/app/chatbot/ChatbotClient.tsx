@@ -1,19 +1,6 @@
 "use client"
-import { useCallback, useState } from 'react';
-
-import Container from "@/app/components/Container";
-import ListingCard from "@/app/components/listings/ListingCard";
-import EmptyState from "@/app/components/EmptyState";
-import { SafeUser } from '@/app/types';
-import ListingRow from '../components/listings/ListingRow';
-
-
-import qs from 'query-string';
-import { useRouter, useSearchParams } from 'next/navigation';
 
 import { useChat, Message } from "ai/react"
-import getListings from '../actions/getListings';
-
 
 interface ChatbotProps {
     listings?: any

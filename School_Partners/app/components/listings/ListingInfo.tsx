@@ -9,6 +9,11 @@ import { SafeUser } from "@/app/types";
 import Avatar from "../Avatar";
 import ListingCategory from "./ListingCategory";
 
+import UpdateModal from '@/app/components/modals/UpdateModal';
+import { useCallback, useState } from "react";
+import useUpdateModal from "@/app/hooks/useUpdateModal";
+
+
 const Map = dynamic(() => import('../Map'), { 
   ssr: false 
 });
@@ -40,6 +45,13 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
 
   const coordinates = getByValue(locationValue)?.latlng
 
+  const updateModal = useUpdateModal();
+
+  const onUpdate = useCallback(() => {
+
+    updateModal.onOpen();
+  }, [updateModal]);
+
   return ( 
     <div className="col-span-4 flex flex-col gap-8">
       <hr />
@@ -57,7 +69,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
           "
         >
           <div>Organized by {user?.name}</div>
-          <Avatar src={user?.image} />
+     
         </div>
         <div className="
             flex 
@@ -91,6 +103,25 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
       </div>
       <hr />
       <Map center={coordinates} />
+
+      <div 
+          onClick={onUpdate}
+          className="
+            hidden
+            md:block
+            text-md 
+            font-semibold 
+            py-3 
+            px-4 
+            rounded-full 
+   
+            transition 
+            cursor-pointer
+          "
+        >
+          Update Information
+        </div>
+
     </div>
    );
 }

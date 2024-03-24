@@ -7,9 +7,15 @@ import { differenceInDays } from 'date-fns';
 
 import useSearchModal from '@/app/hooks/useSearchModal';
 import useCountries from '@/app/hooks/useCountries';
+import useLoginModal from "../../hooks/useLoginModal";
 
-const Search = () => {
+interface SearchProps {
+  currentUser?: any
+}
+
+const Search: React.FC<SearchProps> = ({currentUser}) => {
   const searchModal = useSearchModal();
+  const loginModal = useLoginModal();
   const params = useSearchParams();
   const { getByValue } = useCountries();
 
@@ -23,11 +29,17 @@ const Search = () => {
     return 'Anywhere';
   }, [locationValue, getByValue]);
 
-
+  const handleClick = () => {
+    if (!currentUser) {
+      return loginModal.onOpen();
+    } else {
+      return searchModal.onOpen();
+    }
+  }
 
   return ( 
     <div
-      onClick={searchModal.onOpen}
+      onClick={handleClick}
       className="
         border-[1px] 
         w-full 

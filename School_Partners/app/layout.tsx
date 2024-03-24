@@ -41,12 +41,11 @@ export default async function RootLayout({
           <SearchModal />
           <RentModal />
           <Navbar currentUser={currentUser} />
-          <ChatbotWindow listings={listings}/>
+          <ChatbotWindow currentUser={currentUser} listings={listings}/>
           
         </ClientOnly>
         <div className="pb-20 pt-28">
         {children}
-        hi
         </div>
       </body>
     </html>

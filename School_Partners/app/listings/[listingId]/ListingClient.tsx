@@ -59,39 +59,42 @@ const ListingClient: React.FC<ListingClientProps> = ({
   }, [listing.category]);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [totalPrice, setTotalPrice] = useState(listing.price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
+  const [eventDesc, setEventDesc] = useState('test')
 
   const onCreateReservation = useCallback(() => {
       if (!currentUser) {
         return loginModal.onOpen();
       }
+
+      console.log(eventDesc)
+      console.log(dateRange)
       setIsLoading(true);
-
       //SEND GOOGLE INVITE
-
       
-      //axios.post('/api/reservations', {
-      //  totalPrice,
-      //  startDate: dateRange.startDate,
-      //  endDate: dateRange.endDate,
-      //  listingId: listing?.id
-      //})
-      //.then(() => {
-      //  toast.success('Listing reserved!');
-      //  setDateRange(initialDateRange);
-      //  router.push('/trips');
-      //})
-      //.catch(() => {
-      //  toast.error('Something went wrong.');
-      //})
-      //.finally(() => {
-      //  setIsLoading(false);
-      //})
+
+      axios.post('/api/sendEmail', {
+        listingId: listing?.id,
+        startDate: dateRange.startDate,
+        endDate: dateRange.endDate,
+        orgEmail: listing.email,
+        description: eventDesc,
+      })
+      .then(() => {
+        toast.success('Email Sent');
+        router.push('/');
+      })
+      .catch(() => {
+        toast.error('Something went wrong.');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      })
   },
   [
-    totalPrice, 
+
     dateRange, 
+    eventDesc,
     listing?.id,
     router,
     currentUser,
@@ -104,14 +107,8 @@ const ListingClient: React.FC<ListingClientProps> = ({
         dateRange.endDate, 
         dateRange.startDate
       );
-      
-      if (dayCount && listing.price) {
-        setTotalPrice(dayCount * listing.price);
-      } else {
-        setTotalPrice(listing.price);
-      }
     }
-  }, [dateRange, listing.price]);
+  }, [dateRange]);
 
   return ( 
     <Container>
@@ -157,13 +154,15 @@ const ListingClient: React.FC<ListingClientProps> = ({
             >
               <ListingReservation
                 price={listing.price}
-                totalPrice={totalPrice}
+         
                 onChangeDate={(value) => setDateRange(value)}
+                onChangeDesc={(test) => setEventDesc(test)}
                 dateRange={dateRange}
                 onSubmit={onCreateReservation}
                 disabled={isLoading}
                 disabledDates={disabledDates}
               />
+         
             </div>
           </div>
         </div>

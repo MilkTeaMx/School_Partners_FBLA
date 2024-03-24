@@ -85,7 +85,11 @@ export const categories = [
   
 ]
 
-const Categories = () => {
+interface CategoryProps {
+  currentUser?: any
+}
+
+const Categories: React.FC<CategoryProps> = ({currentUser}) => {
   const params = useSearchParams();
   const category = params?.get('category');
   const pathname = usePathname();
@@ -113,6 +117,7 @@ const Categories = () => {
             label={item.label}
             icon={item.icon}
             selected={category === item.label}
+            currentUser = {currentUser}
           />
         ))}
       </div>

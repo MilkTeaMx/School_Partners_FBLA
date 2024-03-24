@@ -6,6 +6,8 @@ import getReservations from "@/app/actions/getReservations";
 import ClientOnly from "@/app/components/ClientOnly";
 import EmptyState from "@/app/components/EmptyState";
 
+import UpdateModal from '@/app/components/modals/UpdateModal';
+
 import ListingClient from "./ListingClient";
 
 interface IParams {
@@ -34,6 +36,7 @@ const ListingPage = async ({ params }: { params: IParams }) => {
         reservations={reservations}
         currentUser={currentUser}
       />
+      <UpdateModal listing={listing}/>
       </div>
     
     </ClientOnly>
