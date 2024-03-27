@@ -36,9 +36,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
   currentUser,
 }) => {
   const router = useRouter();
-  const { getByValue } = useCountries();
 
-  const location = getByValue(data.locationValue);
+
+  const location = data.locationValue
 
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -112,7 +112,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
           {data.title}
         </div>
         <div >
-          {location?.region}, {location?.label}
+          {location}
         </div>
         <div className="font-light text-neutral-500">
           {reservationDate || data.category}  /  {data.typeOfOrganization}

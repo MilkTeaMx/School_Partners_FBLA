@@ -1,7 +1,6 @@
 // route.ts Route Handlers
 import { Configuration, OpenAIApi } from "openai-edge";
 import { OpenAIStream, StreamingTextResponse, experimental_StreamData } from "ai";
-import getListings from "@/app/actions/getListings";
 
 export const runtime = 'edge'; // Provide optimal infrastructure for our API route (https://edge-runtime.vercel.app/)
 

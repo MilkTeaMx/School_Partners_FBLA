@@ -13,6 +13,7 @@ export async function POST(
   }
 
   const body = await request.json();
+  console.log(body)
   const { 
     category,
     typeOfOrganization,
@@ -24,7 +25,7 @@ export async function POST(
     title,
     description,
    } = body;
-
+ 
   Object.keys(body).forEach((value: any) => {
     if (!body[value]) {
       NextResponse.error();
@@ -40,7 +41,7 @@ export async function POST(
       typeOfOrganization,
       phoneNumber,
       email,
-      locationValue: location.value,
+      locationValue: location,
       price: parseInt(price, 10),
       userId: currentUser.id
     }

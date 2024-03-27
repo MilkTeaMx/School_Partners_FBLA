@@ -1,5 +1,4 @@
 "use client"
-import getListings from "@/app/actions/getListings";
 import ChatbotClient from "@/app/chatbot/ChatbotClient";
 import { useCallback, useState } from "react";
 import { IoMdChatbubbles } from "react-icons/io";

@@ -24,6 +24,7 @@ import ImageUpload from '../inputs/ImageUpload';
 import Input from '../inputs/Input';
 import Heading from '../Heading';
 import { SafeListing } from '@/app/types';
+import LocationSelect from '../inputs/LocationSelect';
 
 enum STEPS {
   CATEGORY = 0,
@@ -47,7 +48,13 @@ const UpdateModal: React.FC<UpdateModalProps>  = ({ listing }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState(STEPS.CATEGORY);
 
-  const pathname = usePathname()
+  const [coordinates, setLocation] = useState<any>({lat: 43.45, lng: -80.49 });
+
+  const handleLocationSelect = (value: any) => {
+    setLocation({lat: value.lat, lng: value.lng})
+    setCustomValue('location', value.description)
+  }
+  
 
   const { 
     register, 
@@ -81,7 +88,7 @@ const UpdateModal: React.FC<UpdateModalProps>  = ({ listing }) => {
 
   const Map = useMemo(() => dynamic(() => import('../Map'), { 
     ssr: false 
-  }), [location]);
+  }), [coordinates]);
 
 
   const setCustomValue = (id: string, value: any) => {
@@ -121,6 +128,9 @@ const UpdateModal: React.FC<UpdateModalProps>  = ({ listing }) => {
     .finally(() => {
       setIsLoading(false);
     })
+
+    console.log("SDFSGGHTHTHJ")
+    console.log(data)
   }
 
   const actionLabel = useMemo(() => {
@@ -177,11 +187,10 @@ const UpdateModal: React.FC<UpdateModalProps>  = ({ listing }) => {
           title="Where is the organization located?"
           subtitle="Help us find it!"
         />
-        <CountrySelect 
-          value={location} 
-          onChange={(value) => setCustomValue('location', value)} 
-        />
-        <Map center={location?.latlng} />
+        <LocationSelect 
+          values={coordinates} 
+          onChange={handleLocationSelect} />
+        <Map position={coordinates} />
       </div>
     );
   }

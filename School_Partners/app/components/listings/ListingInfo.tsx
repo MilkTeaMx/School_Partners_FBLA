@@ -86,6 +86,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
           <div> Call or Text at: {phoneNumber} </div>
           <div> Email at: {email} </div>
           <div> Organization: {typeOfOrganization} </div>
+          <div> {locationValue} </div>
         </div>
       </div>
       <hr />
@@ -102,7 +103,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
         {description}
       </div>
       <hr />
-      <Map center={coordinates} />
+
 
       <div 
           onClick={onUpdate}

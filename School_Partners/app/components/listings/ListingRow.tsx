@@ -37,9 +37,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
   currentUser,
 }) => {
   const router = useRouter();
-  const { getByValue } = useCountries();
 
-  const location = getByValue(data.locationValue);
+  const location = data.locationValue
 
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -93,7 +92,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
       <div className="border-l border-gray-300 h-4 w-1/12"></div> {/* Fixed width for vertical line */}
       <div className="flex flex-col w-1/6"> {/* Smaller width for location */}
         <div>
-          {location?.region}, {location?.label}
+          {location}
         </div>
         <div className="font-normal text-sm text-neutral-500">
           {reservationDate || data.category} - {data.typeOfOrganization}

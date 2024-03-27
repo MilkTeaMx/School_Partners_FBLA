@@ -57,7 +57,7 @@ export async function PUT(
       NextResponse.error();
     }
   });
-
+  console.log(body)
   const updatedListing = await prisma.listing.updateMany({
     where: {
       id: listingId,
@@ -72,9 +72,11 @@ export async function PUT(
       typeOfOrganization: body.typeOfOrganization,
       phoneNumber: body.phoneNumber,
       email: body.email,
-      locationValue: body.locationValue,
+      locationValue: body.location,
       price: body.price 
     }
+
+    
   });
 
   return NextResponse.json(updatedListing);

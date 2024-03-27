@@ -1,4 +1,5 @@
 import prisma from "@/app/libs/prismadb";
+import getCurrentUser from "./getCurrentUser";
 
 export interface IListingsParams {
   userId?: string;
@@ -14,6 +15,9 @@ export interface IListingsParams {
 export default async function getListings(
   params: IListingsParams
 ) {
+  const currentUser = await getCurrentUser();
+  const currentUserID = currentUser?.id
+
   try {
     const {
       userId,
@@ -32,6 +36,8 @@ export default async function getListings(
     if (userId) {
       query.userId = userId;
     }
+    
+    query.userId = currentUserID
 
     if (category) {
       query.category = category;

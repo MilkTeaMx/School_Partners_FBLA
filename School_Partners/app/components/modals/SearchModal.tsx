@@ -16,6 +16,7 @@ import CountrySelect, {
   CountrySelectValue
 } from "../inputs/CountrySelect";
 import Heading from '../Heading';
+import LocationSelect from '../inputs/LocationSelect';
 
 enum STEPS {
   LOCATION = 0,
@@ -30,12 +31,20 @@ const SearchModal = () => {
 
   const [step, setStep] = useState(STEPS.LOCATION);
 
-  const [location, setLocation] = useState<CountrySelectValue>();
+  const [location, setLocation] = useState<any>({lat: 43.45, lng: -80.49 });
+  const [address, setAddress] = useState<any>();
+
+  const handleLocationSelect = (value: any) => {
+    setLocation({lat: value.lat, lng: value.lng})
+    setAddress(value.description)
+  }
+  
   const [dateRange, setDateRange] = useState<Range>({
     startDate: new Date(),
     endDate: new Date(),
     key: 'selection'
   });
+
 
   const Map = useMemo(() => dynamic(() => import('../Map'), { 
     ssr: false 
@@ -114,13 +123,11 @@ const SearchModal = () => {
         title="What country is the organization in?"
         subtitle="Find organizations across the world"
       />
-      <CountrySelect 
-        value={location} 
-        onChange={(value) => 
-          setLocation(value as CountrySelectValue)} 
-      />
-      <hr />
-      <Map center={location?.latlng} />
+      
+      <LocationSelect 
+          values={location} 
+          onChange={handleLocationSelect} />
+      <Map position={location} />
     </div>
   )
 

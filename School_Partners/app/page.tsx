@@ -20,7 +20,6 @@ const Home = async ({ searchParams }: HomeProps) => {
   const currentUser = await getCurrentUser();
   
   if (currentUser == null) {
-    console.log("SDFSDFSDF")
     return (
       <ClientOnly>
         <LandingState />
@@ -29,7 +28,6 @@ const Home = async ({ searchParams }: HomeProps) => {
   }
 
   if (listings.length === 0) {
-    console.log("AAAAAAAAAASDFSDFSDF")
     return (
       <ClientOnly>
         <EmptyState showReset />
@@ -41,7 +39,6 @@ const Home = async ({ searchParams }: HomeProps) => {
   return (
     <ClientOnly>
       <ListingsContainer listings={listings} currentUser={currentUser}/>
-      
     </ClientOnly>
   )
 }

@@ -35,7 +35,7 @@ const Navbar: React.FC<NavbarProps> = ({
         >
           <Logo />
      
-          <Search currentUser={currentUser} />
+        
           <UserMenu currentUser={currentUser} />
         </div>
       </Container>
