@@ -15,8 +15,8 @@ import getCurrentUser from './actions/getCurrentUser';
 import getListings from './actions/getListings';
 
 export const metadata = {
-  title: 'Airbnb',
-  description: 'Airbnb Clone',
+  title: 'Community Connect',
+  description: 'Community Connect',
 }
 
 const font = Nunito({ 
@@ -45,7 +45,7 @@ export default async function RootLayout({
           
         </ClientOnly>
         <div className="pb-20 pt-28">
-        {children}
+         {children}
         </div>
       </body>
     </html>

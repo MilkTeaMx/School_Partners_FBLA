@@ -10,6 +10,7 @@ import ClientOnly from "./components/ClientOnly";
 import ListingsContainer from "./components/listings/ListingContainer";
 import ChatbotClient from "./chatbot/ChatbotClient";
 import LandingState from "./components/LandingState";
+import Dashboard from "./components/Dashboard";
 
 interface HomeProps {
   searchParams: IListingsParams
@@ -38,6 +39,7 @@ const Home = async ({ searchParams }: HomeProps) => {
 
   return (
     <ClientOnly>
+      <Dashboard listings={listings} currentUser={currentUser}/>
       <ListingsContainer listings={listings} currentUser={currentUser}/>
     </ClientOnly>
   )

@@ -8,11 +8,12 @@ import { SafeUser } from '@/app/types';
 import ListingRow from '../components/listings/ListingRow';
 import OpenableMenu from '../components/openableMenu';
 import {categories} from '../components/navbar/Categories';
-
+import { AiOutlineSearch } from 'react-icons/ai';
 import { saveAs } from 'file-saver';
 
 import qs from 'query-string';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Search from '../components/navbar/Search';
 
 interface ListingContainerProps {
     listings?: any;
@@ -23,6 +24,26 @@ const ListingsContainer: React.FC<ListingContainerProps> = ({ listings, currentU
   
   const [filterIsOpen, setIsOpen] = useState(false);
   const [sortedListings, setListings] = useState<any[]>(listings)
+  const [searchTerm, setSearchTerm] = useState('');
+
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    // Handle search logic here
+    console.log('Searching for:', searchTerm);
+  };
+
+  const handleChange = (event:any) => {
+    const searchTerm = event.target.value.toLowerCase(); // Ensure the search term is in lowercase
+    setSearchTerm(searchTerm)
+    if (listings) {
+      const newSearchedListings = listings.filter((listing:any) => 
+        listing.title.toLowerCase().startsWith(searchTerm)
+      );
+      setListings(newSearchedListings);
+    }
+  };
+
 
   const exportToCSV = () => {
     const csvContent = "data:text/csv;charset=utf-8," 
@@ -123,9 +144,6 @@ const ListingsContainer: React.FC<ListingContainerProps> = ({ listings, currentU
     }
   }
   
-  
-
-
   return (
     <>
    
@@ -163,7 +181,23 @@ const ListingsContainer: React.FC<ListingContainerProps> = ({ listings, currentU
         />
 
       <button className=" px-4 py-1 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-600" onClick={exportToCSV}>Export to CSV</button>
-      
+
+      <form onSubmit={handleSubmit} className="relative">
+        
+      <input
+        type="text"
+        placeholder="Search"
+        value={searchTerm}
+        onChange={handleChange}
+        className="rounded-full w-96 pl-10 pr-4 py-1 border border-gray-300 w-1rounded-lg focus:outline-none focus:border-red-500"
+      />
+
+      <AiOutlineSearch
+        className="absolute top-0 left-0 m-2 text-gray-400 pointer-events-none"
+        style={{ fontSize: '1rem' }}
+      />
+
+      </form>
 
       </div>
 

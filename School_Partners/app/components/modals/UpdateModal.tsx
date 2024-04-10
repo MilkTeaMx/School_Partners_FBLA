@@ -116,7 +116,7 @@ const UpdateModal: React.FC<UpdateModalProps>  = ({ listing }) => {
 
     axios.put(`/api/listings/${listing.id}`, data)
     .then(() => {
-      toast.success('Listing updated!');
+      toast.success('Partnership updated!');
       router.refresh();
       reset();
       setStep(STEPS.CATEGORY)

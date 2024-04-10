@@ -21,7 +21,7 @@ const Places: React.FC<LocationSelectProps> = ({values, onChange}) => {
 
   const libraries = useMemo(() => ['places'], []);
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyDR9EOvqsmZ6VCotCRuyg86KGLNewtAoGI",
+    googleMapsApiKey: "a",
     libraries: libraries as any,
   });
 

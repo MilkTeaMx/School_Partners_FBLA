@@ -108,7 +108,7 @@ const PartnerModal = () => {
 
     axios.post('/api/listings', data)
     .then(() => {
-      toast.success('Listing created!');
+      toast.success('Partnership created!');
       router.refresh();
       reset();
       setStep(STEPS.CATEGORY)

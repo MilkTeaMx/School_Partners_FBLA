@@ -38,37 +38,55 @@ type LatLng = {
 
 interface MapProps {
   position?: LatLng;
+  listings?: any;
 }
 
 const url = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
-const MyMap: React.FC<MapProps> = ({ position }) => {
+const MyMap: React.FC<MapProps> = ({ position, listings }) => {
   
   const [open, setOpen] = useState(false);
 
+  //If only one position
+  if (position != null && listings == null) {
+    return (
+      <>
+      <APIProvider apiKey={"a--zqE"}>
+        <div className='h-96'>
+          <Map zoom={9} center={position} mapId={"a--zqE"}>
+            <AdvancedMarker position={position} onClick={() => setOpen(true)}>
+              <Pin
+                background={"grey"}
+                borderColor={"green"}
+                glyphColor={"purple"}
+              />
+            </AdvancedMarker>
+
+            {open && (
+              <InfoWindow position={position} onCloseClick={() => setOpen(false)}>
+                <p> Location </p>
+              </InfoWindow>
+            )}
+          </Map>
+        </div>
+      </APIProvider>
+      </>
+    );
+  }
+
+
+  //If want to be able to move
   return (
     <>
-    <APIProvider apiKey={"AIzaSyDR9EOvqsmZ6VCotCRuyg86KGLNewtAoGI"}>
+    <APIProvider apiKey={"a--zqE"}>
       <div className='h-96'>
-        <Map zoom={9} center={position} mapId={"AIzaSyDR9EOvqsmZ6VCotCRuyg86KGLNewtAoGI"}>
-          <AdvancedMarker position={position} onClick={() => setOpen(true)}>
-            <Pin
-              background={"grey"}
-              borderColor={"green"}
-              glyphColor={"purple"}
-            />
-          </AdvancedMarker>
-
-          {open && (
-            <InfoWindow position={position} onCloseClick={() => setOpen(false)}>
-              <p> Location </p>
-            </InfoWindow>
-          )}
-        </Map>
+        {listings.map((listing:any) => listing.locationValue)}
       </div>
     </APIProvider>
     </>
   );
+
+
 }
 export default MyMap

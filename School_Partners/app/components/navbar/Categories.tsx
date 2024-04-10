@@ -93,7 +93,7 @@ const Categories: React.FC<CategoryProps> = ({currentUser}) => {
   const params = useSearchParams();
   const category = params?.get('category');
   const pathname = usePathname();
-  const isMainPage = pathname === '/';
+  const isMainPage = (pathname === '/');
 
   if (!isMainPage) {
     return null;
@@ -103,7 +103,7 @@ const Categories: React.FC<CategoryProps> = ({currentUser}) => {
     <Container>
       <div
         className="
-          pt-4
+          pt-2
           flex 
           flex-row 
           items-center 

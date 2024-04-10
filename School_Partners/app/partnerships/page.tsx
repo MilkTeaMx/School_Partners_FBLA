@@ -6,6 +6,7 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import PartnershipsClient from "./PartnershipClient";
 import ListingsContainer from "../components/listings/ListingContainer";
 import getListings, { IListingsParams } from "../actions/getListings";
+import Categories from "../components/navbar/Categories";
 
 
 interface PartnershipParams {

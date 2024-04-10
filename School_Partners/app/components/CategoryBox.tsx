@@ -26,9 +26,6 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
   const handleClick = useCallback(() => {
     let currentQuery = {};
     
-    if (currentUser == null) {
-      return loginModal.onOpen();
-    }
 
     if (params) {
       currentQuery = qs.parse(params.toString())

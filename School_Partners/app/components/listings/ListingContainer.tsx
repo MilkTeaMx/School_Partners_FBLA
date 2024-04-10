@@ -12,16 +12,14 @@ interface ListingContainerProps {
   }
 
 const ListingsContainer: React.FC<ListingContainerProps> = ({ listings, currentUser }) => {
-  
-  const [toggleViewMode, setToggleViewMode] = useState(false);
-  
+
   return (
     <>
 
     <Container>
+      <h1 className="text-lg font-bold mb-2 justify-centers">Your Partnerships:</h1>
       <div 
         className="
-          pt-24
           grid 
           grid-cols-1 
           sm:grid-cols-2 
@@ -32,6 +30,7 @@ const ListingsContainer: React.FC<ListingContainerProps> = ({ listings, currentU
           gap-8
         "
       >
+        
         {listings.map((listing: any) => (
           <ListingCard
             currentUser={currentUser}

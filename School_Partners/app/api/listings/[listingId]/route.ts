@@ -73,6 +73,7 @@ export async function PUT(
       phoneNumber: body.phoneNumber,
       email: body.email,
       locationValue: body.location,
+
       price: body.price 
     }
 
