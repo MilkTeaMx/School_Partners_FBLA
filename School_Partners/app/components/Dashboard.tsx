@@ -9,7 +9,12 @@ import { Chart as ChartJS, ArcElement, LinearScale, CategoryScale,  LineElement,
 
 import { Pie, Line} from 'react-chartjs-2';
 
-import MyMap from './Map';
+import usePartnerModal from "@/app/hooks/usePartnerModal";
+import useUpdateModal from "@/app/hooks/useUpdateModal";
+
+
+
+import MyDashboardMap from './dashboardMap';
 
 ChartJS.register(
   LinearScale,
@@ -28,6 +33,9 @@ interface DashboardProps {
   }
 
 const Dashboard: React.FC<DashboardProps> = ({ listings, currentUser }) => {
+
+    const updateModal = useUpdateModal();
+    const partnerModal = usePartnerModal();
 
     const categoryCounts: { [category: string]: number } = {};
     const dateCounts: { [date: string]: number } = {};
@@ -125,7 +133,7 @@ console.log(plotsData);
 
             <div className="w-1/3 bg-yellow-50 p-4 rounded border border-gray-300 m-3">
 
-             <MyMap listings={listings}/>
+              {!usePartnerModal.getState().isOpen && <MyDashboardMap listings={listings} />}
              
             </div>
           </div>
