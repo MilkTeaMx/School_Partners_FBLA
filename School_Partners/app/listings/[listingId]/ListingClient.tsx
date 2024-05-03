@@ -143,6 +143,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
               phoneNumber={listing.phoneNumber}
               locationValue={listing.locationValue}
               typeOfOrganization={listing.typeOfOrganization}
+              id={listing.id}
             />
             <div 
               className="

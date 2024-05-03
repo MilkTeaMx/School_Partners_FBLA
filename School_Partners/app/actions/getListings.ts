@@ -19,7 +19,7 @@ export default async function getListings(
   const currentUserID = currentUser?.id
 
   try {
-    const {
+    const { 
       userId,
       locationValue,
       startDate,
@@ -64,7 +64,7 @@ export default async function getListings(
           }
         }
       }
-    }
+    } 
 
     const listings = await prisma.listing.findMany({
       where: query,

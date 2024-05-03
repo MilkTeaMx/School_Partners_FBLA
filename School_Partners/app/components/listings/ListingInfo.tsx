@@ -1,7 +1,13 @@
 'use client';
 
+
+import { toast } from "react-hot-toast";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+
 import dynamic from "next/dynamic";
 import { IconType } from "react-icons";
+
 
 import useCountries from "@/app/hooks/useCountries";
 import { SafeUser } from "@/app/types";
@@ -30,6 +36,7 @@ interface ListingInfoProps {
     description: string;
   } | undefined
   locationValue: string;
+  id: any;
 }
 
 const ListingInfo: React.FC<ListingInfoProps> = ({
@@ -40,10 +47,11 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   typeOfOrganization,
   category,
   locationValue,
+  id
 }) => {
   const { getByValue } = useCountries();
 
-  const coordinates = getByValue(locationValue)?.latlng
+  const router = useRouter();
 
   const updateModal = useUpdateModal();
 
@@ -51,6 +59,20 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
 
     updateModal.onOpen();
   }, [updateModal]);
+
+  const onDelete = useCallback(() => {
+
+    axios.delete(`/api/listings/${id}`)
+    .then(() => {
+      toast.success('Partnership deleted');
+      router.push('/')
+    })
+    .catch((error) => {
+      toast.error(error?.response?.data?.error)
+    })
+  }, [router]);
+
+
 
   return ( 
     <div className="col-span-4 flex flex-col gap-8">
@@ -112,7 +134,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
             md:block
             text-md 
             font-semibold 
-            py-3 
+            
             px-4 
             rounded-full 
    
@@ -121,6 +143,24 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
           "
         >
           Update Information
+        </div>
+
+        <div 
+          onClick={() => onDelete}
+          className="
+            hidden
+            md:block
+            text-md 
+            font-semibold 
+       
+            px-4 
+            rounded-full 
+            text-red-400
+            transition 
+            cursor-pointer
+          "
+        >
+          Delete
         </div>
 
     </div>

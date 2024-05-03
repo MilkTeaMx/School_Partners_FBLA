@@ -125,7 +125,8 @@ console.log(plotsData);
 
             <div className="w-1/3 bg-yellow-50 p-4 rounded border border-gray-300 m-3">
 
-              <MyMap listings={listings}/>
+             <MyMap listings={listings}/>
+             
             </div>
           </div>
 

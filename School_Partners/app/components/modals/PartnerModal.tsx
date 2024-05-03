@@ -44,6 +44,8 @@ const PartnerModal = () => {
   const handleLocationSelect = (value: any) => {
     setLocation({lat: value.lat, lng: value.lng})
     setCustomValue('location', value.description)
+    setCustomValue('lat', value.lat)
+    setCustomValue('lng', value.lng)
   }
   
 
@@ -65,6 +67,8 @@ const PartnerModal = () => {
       location: null,
       imageSrc: '',
       price: 1,
+      lat: 0,
+      lng: 0,
       title: '',
       description: '',
     }

@@ -53,6 +53,9 @@ const UpdateModal: React.FC<UpdateModalProps>  = ({ listing }) => {
   const handleLocationSelect = (value: any) => {
     setLocation({lat: value.lat, lng: value.lng})
     setCustomValue('location', value.description)
+    setCustomValue('lat', value.lat)
+    setCustomValue('lng', value.lng)
+    console.log(value.lat)
   }
   
 
@@ -75,6 +78,8 @@ const UpdateModal: React.FC<UpdateModalProps>  = ({ listing }) => {
       imageSrc: listing.imageSrc,
       price: listing.price,
       title: listing.title,
+      lat: listing.lat,
+      lng: listing.lng,
       description: listing.description,
     }
   });

@@ -21,6 +21,8 @@ export async function POST(
     email,
     location,
     imageSrc,
+    lat,
+    lng,
     price,
     title,
     description,
@@ -42,6 +44,8 @@ export async function POST(
       phoneNumber,
       email,
       locationValue: location,
+      lat,
+      lng,
       price: parseInt(price, 10),
       userId: currentUser.id
     }

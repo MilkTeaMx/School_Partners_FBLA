@@ -74,6 +74,8 @@ export async function PUT(
       email: body.email,
       locationValue: body.location,
 
+      lat: body.lat,
+      lng: body.lng,
       price: body.price 
     }
 
