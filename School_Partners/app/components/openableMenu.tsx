@@ -63,7 +63,7 @@ const OpenableMenu: React.FC<ModalProps> = ({
   
   return (
     <div className="relative">
-      <div className="flex flex-row items-center gap-3">
+      <div className="flex flex-row items-center gap-2">
         <div
           onClick={toggleOpen}
           className="
@@ -75,7 +75,7 @@ const OpenableMenu: React.FC<ModalProps> = ({
             flex 
             flex-row 
             items-center 
-            gap-3 
+            gap-2
             rounded-full 
             cursor-pointer 
             hover:shadow-md 
@@ -83,7 +83,7 @@ const OpenableMenu: React.FC<ModalProps> = ({
             bg-white 
           "
         >
-            <h1> {title} </h1>
+            <h2 className="text-sm"> {title} </h2>
           <AiOutlineMenu />
         </div>
       </div>

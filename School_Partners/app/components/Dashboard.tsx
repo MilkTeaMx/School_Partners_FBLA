@@ -141,7 +141,7 @@ const Dashboard: React.FC<DashboardProps> = ({ listings, currentUser }) => {
         
         <div className="w-1/3 bg-green-50 p-4 rounded border border-gray-300 m-3">
           <div className="pt-8">
-            {true && <MyDashboardMap listings={listings}/>}
+            {true && <MyDashboardMap listings={listings} />}
           </div>
         </div>
         

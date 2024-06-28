@@ -48,9 +48,9 @@ const FAQ = async () => {
               If you have any further questions or need assistance, please contact us at:
             </p>
             <ul className="text-lg text-gray-500 space-y-2">
-              <li>Email: support@ctepartners.com</li>
-              <li>Phone: (123) 456-7890</li>
-              <li>Address: 123 Education Lane, School City, State, 12345</li>
+              <li>Email: support@communictyConnect.com</li>
+              <li>Phone: (425) 242-7130</li>
+              <li>Address: 123 CommunityConnect Street 3152</li>
             </ul>
           </div>
         </div>
