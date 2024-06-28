@@ -20,6 +20,7 @@ model User {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   favoriteIds     String[] @db.ObjectId
+  schoolLocation String?
 
   accounts Account[]
   listings Listing[]
@@ -56,13 +57,15 @@ model Listing {
   typeOfOrganization String
   phoneNumber String
   email String
-
+  
   locationValue String
   userId String @db.ObjectId
   price Int
 
   lat Float?
   lng Float?
+
+  public Boolean?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservations Reservation[]

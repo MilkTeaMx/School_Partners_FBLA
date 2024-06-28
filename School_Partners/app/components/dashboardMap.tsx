@@ -1,15 +1,11 @@
 'use client';
 
-import L from 'leaflet';
-import { MapContainer, TileLayer } from 'react-leaflet'
-
-import 'leaflet/dist/leaflet.css'
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import { useMemo, useState } from 'react';
-import { Status, Wrapper } from '@googlemaps/react-wrapper';
+
+import { FaSchool } from "react-icons/fa";
+
+import schoolClipart from '../../public/images/schoolClipart.png'; // Import the image
+import schoolsClipart from '../../public/images/Logo1.png'; // Import the image
 
 
 import {
@@ -22,15 +18,6 @@ import {
 
 
 
-
-// @ts-ignore
-delete L.Icon.Default.prototype._getIconUrl; 
-L.Icon.Default.mergeOptions({
-    iconUrl: markerIcon.src,
-    iconRetinaUrl: markerIcon2x.src,
-    shadowUrl: markerShadow.src,
-});
-
 type LatLng = {
   lat: number;
   lng: number;
@@ -41,8 +28,6 @@ interface MapProps {
   listings?: any;
 }
 
-const url = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
 const MyDashboardMap: React.FC<MapProps> = ({ position, listings }) => {
   
@@ -54,12 +39,31 @@ const MyDashboardMap: React.FC<MapProps> = ({ position, listings }) => {
     }));
   };
 
+
+
+
+  const customPinImage = "../public/images/schoolClipart.png"; // Path to your custom pin image
+
+  const createCustomPinElement = () => {
+    const img = document.createElement('img');
+    img.src = customPinImage;
+    img.style.width = '32px'; // Adjust the size as needed
+    img.style.height = '32px';
+    return img;
+  };
+
+
   //If want to be able to move
   return (
     <>
-    <APIProvider apiKey={""}>
+    <APIProvider apiKey={"AIzaSyCLLAxKmD2GPvIdhRjd0MUZZ7_L6rgeBd4"}>
       <div className='h-96'>
-         <Map defaultZoom={9} defaultCenter={{lat: 42.58, lng: -83.23}} mapId={"your-map-id"}>
+         <Map defaultZoom={10} defaultCenter={{lat: 42.58, lng: -83.23}} mapId={"8e9104aca2da6600"}>
+
+            <AdvancedMarker position={{lat: 42.58, lng: -83.23}} zIndex={10}>
+              <img src={"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Round_Landmark_School_Icon_-_Transparent.svg/768px-Round_Landmark_School_Icon_-_Transparent.svg.png"} width={45} height={45} />
+            </AdvancedMarker>
+
             {listings.map((listing:any) => (
               <AdvancedMarker key={listing.id} position={{ lat: listing.lat, lng: listing.lng }} onClick={() => handleMarkerClick(listing.title)}>
               <Pin background={"grey"} borderColor={"red"} glyphColor={"white"} />
@@ -74,12 +78,13 @@ const MyDashboardMap: React.FC<MapProps> = ({ position, listings }) => {
                   position={{ lat: listing.lat, lng: listing.lng }}
                   onCloseClick={() => handleMarkerClick(listing.title)}
                 >
-                  <div className="bg-white p-2 rounded-lg shadow-md">
-                    <p className="text-md font-semibold">{listing.title}</p>
-                    <p className="text-gray-600 mb-1">{listing.category}</p>
-                    <p className="text-xs text-gray-600 mb-1">{listing.location}</p>
-                    <p className="text-xs text-gray-700">{listing.description}</p>
+                  <div>
+                    <h1 className="text-md font-semibold pb-6">{listing.title}</h1>
+                    <p className=" mb-1">{listing.category}</p>
+
+                    <p className="text-xs text-gray-400">{listing.description}</p>
                   </div>
+
                 </InfoWindow>
               )))}
         </Map>

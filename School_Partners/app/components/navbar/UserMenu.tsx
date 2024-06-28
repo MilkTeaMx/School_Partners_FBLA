@@ -44,6 +44,42 @@ const UserMenu: React.FC<UserMenuProps> = ({
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
         <div 
+          onClick={() => router.push('/faq')}
+          className="
+            hidden
+            md:block
+            text-xs
+            font-semibold 
+            py-3 
+            px-4 
+            rounded-full 
+            hover:bg-neutral-100 
+            transition 
+            underline
+            cursor-pointer
+          "
+        >
+          Frequently Asked Questions
+        </div>
+        <div 
+          onClick={() => router.push('/faq')}
+          className="
+            hidden
+            md:block
+            text-xs
+            font-semibold 
+            py-3 
+            px-4 
+            rounded-full 
+            hover:bg-neutral-100 
+            transition 
+            underline
+            cursor-pointer
+          "
+        >
+          Contact Us
+        </div>
+        <div 
           onClick={onRent}
           className="
             hidden
@@ -114,6 +150,10 @@ const UserMenu: React.FC<UserMenuProps> = ({
                 <MenuItem 
                   label="Manage Partnerships" 
                   onClick={() => router.push('/properties')}
+                />
+                <MenuItem 
+                  label="Calendar" 
+                  onClick={() => router.push('/reservations')}
                 />
                 <MenuItem 
                   label="Partner Up" 

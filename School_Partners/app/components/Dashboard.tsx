@@ -26,6 +26,10 @@ ChartJS.register(
   Legend,
   Tooltip
 );
+import usePlacesAutocomplete, {getGeocode, getLatLng} from 'use-places-autocomplete';
+import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import LocationSelect from './inputs/LocationSelect';
+import { APIProvider } from '@vis.gl/react-google-maps';
 
 interface DashboardProps {
     listings?: any
@@ -33,6 +37,19 @@ interface DashboardProps {
   }
 
 const Dashboard: React.FC<DashboardProps> = ({ listings, currentUser }) => {
+
+
+    const [selectedPlace, setSelectedPlace] =
+      useState<google.maps.places.PlaceResult | null>(null);
+
+    const handleLocationSelect = (value: any) => {
+      console.log("SDFSF")
+      setSelectedPlace(value)
+      console.log(selectedPlace)
+
+      console.log(value.lat)
+      
+    }
 
     const updateModal = useUpdateModal();
     const partnerModal = usePartnerModal();
@@ -112,34 +129,36 @@ const Dashboard: React.FC<DashboardProps> = ({ listings, currentUser }) => {
       ]
     }
 
-
-console.log(plotsData);
-
     return (
       <Container>
     
-        <div className="pt-16 pb-8 bg-white flex flex-col">
+        <div className="pt-12 pb-6 bg-white flex flex-col">
           <h1 className="text-lg font-bold mb-2 justify-centers pt-8">Your Dashboard</h1>
-          <div className="flex justify-between h-2/3 p-5 border-2 border-gray-200 shadow-md">
+          <div className="flex justify-between h-2/3 p-2 border-2 border-gray-200 shadow-md">
           
             <div className="w-1/4 bg-red-50 p-4 rounded border border-gray-300 m-3 items-center">
                 <h2 className="text-md font-bold mb-2 justify-centers">Community Pie</h2>
                 {pieData && <Pie data={pieData} />}
+            </div>
+            <div className="w-1/3 bg-yellow-50 p-4 rounded border border-gray-300 m-3">
+              <div className='pt-4'>
+                {true && <MyDashboardMap listings={listings}/>}
+              </div>
+          
+              
             </div>
             <div className="w-2/5 bg-blue-50 p-4 rounded border border-gray-300 m-3">
               <h2 className="text-md font-bold mb-2 justify-centers"># of Partnerships Created</h2>
               {plotData && <Line data={plotData} />}
             </div>
 
-            <div className="w-1/3 bg-yellow-50 p-4 rounded border border-gray-300 m-3">
 
-              {!usePartnerModal.getState().isOpen && <MyDashboardMap listings={listings} />}
-             
-            </div>
           </div>
 
-          
+     
         </div>
+
+
         </Container>
       );
     };

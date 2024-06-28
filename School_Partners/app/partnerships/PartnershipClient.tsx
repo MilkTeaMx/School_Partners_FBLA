@@ -14,6 +14,8 @@ import { saveAs } from 'file-saver';
 import qs from 'query-string';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Search from '../components/navbar/Search';
+import useFavorite from "@/app/hooks/useFavorite";
+import axios from 'axios';
 
 interface ListingContainerProps {
     listings?: any;
@@ -21,21 +23,20 @@ interface ListingContainerProps {
   }
 
 const ListingsContainer: React.FC<ListingContainerProps> = ({ listings, currentUser }) => {
-  
+  const router = useRouter();
   const [filterIsOpen, setIsOpen] = useState(false);
-  const [sortedListings, setListings] = useState<any[]>(listings)
+  const [sortedListings, setListings] = useState<any[]>(listings);
+  const [selectedListings, setSelectedListings] = useState<Set<string>>(new Set());
   const [searchTerm, setSearchTerm] = useState('');
-
-
+  const { toggleFavoriteById } = useFavorite({ currentUser });
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    // Handle search logic here
     console.log('Searching for:', searchTerm);
   };
 
   const handleChange = (event:any) => {
-    const searchTerm = event.target.value.toLowerCase(); // Ensure the search term is in lowercase
-    setSearchTerm(searchTerm)
+    const searchTerm = event.target.value.toLowerCase();
+    setSearchTerm(searchTerm);
     if (listings) {
       const newSearchedListings = listings.filter((listing:any) => 
         listing.title.toLowerCase().startsWith(searchTerm)
@@ -44,6 +45,30 @@ const ListingsContainer: React.FC<ListingContainerProps> = ({ listings, currentU
     }
   };
 
+  const handleCheckboxClick = (id: string, checked: boolean) => {
+    setSelectedListings(prev => {
+      const newSelectedListings = new Set(prev);
+      if (checked) {
+        newSelectedListings.add(id);
+      } else {
+        newSelectedListings.delete(id);
+      }
+      return newSelectedListings;
+    });
+  };
+
+  const handleDeleteAll = async () => {
+    selectedListings.forEach(async id => {
+
+      let request;
+      request = () => axios.delete(`/api/listings/${id}`);
+      await request();
+      router.push('/')
+    })
+
+  
+  };
+  
 
   const exportToCSV = () => {
     const csvContent = "data:text/csv;charset=utf-8," 
@@ -70,11 +95,9 @@ const ListingsContainer: React.FC<ListingContainerProps> = ({ listings, currentU
         return 0;
       });
       
-      //important to create new warray using the [...] so it actually rerenders
-      setListings(newSortedListings)
+      setListings(newSortedListings);
     }
-    
-  }
+  };
 
   const sortListingsByCategory = (categoryParam: string) => {
     if (listings) {
@@ -94,7 +117,7 @@ const ListingsContainer: React.FC<ListingContainerProps> = ({ listings, currentU
       
       setListings(newSortedListings);
     }
-  }
+  };
   
   const sortListingsByLocation = (reverseOrder: boolean) => {
     if (listings) {
@@ -121,8 +144,7 @@ const ListingsContainer: React.FC<ListingContainerProps> = ({ listings, currentU
       
       setListings(newSortedListings);
     }
-  }
-
+  };
 
   const sortListingsByOrganization = (startsWith: string) => {
     if (listings) {
@@ -142,94 +164,78 @@ const ListingsContainer: React.FC<ListingContainerProps> = ({ listings, currentU
       
       setListings(newSortedListings);
     }
-  }
+  };
   
   return (
     <>
-   
-      <div className="z-10 fixed w-full flex flex-row items-center justify-between space-x-4 py-4 px-4"> {/* Flex container with horizontal spacing */}
-      <div className="flex flex-row items-center space-x-4"> {/* Wrapper for OpenableMenu components */}
-        <OpenableMenu
-          title='Sort By Alphabet'
-          option1="Ascending" option1Action={() => sortListingsByAlphabet(false)}
-          option2="Descending" option2Action={() => sortListingsByAlphabet(true)}
-        />
-
-        <OpenableMenu
-          title='Sort By Type of Organization'
-          option1="Government" option1Action={() => sortListingsByOrganization("government")}
-          option2="For-Profit" option2Action={() => sortListingsByOrganization("for")}
-          option3="Non-Profit" option3Action={() => sortListingsByOrganization("non")}
-        />
-
-        <OpenableMenu
-          title='Sort By Resources Available'
-          option1="Scholarships" option1Action={() => sortListingsByCategory("Scholarships")}
-          option2="Apprenticeships" option2Action={() => sortListingsByCategory("Apprenticeships")}
-          option3="Discounts" option3Action={() => sortListingsByCategory("Discounts")}
-          option4="Funding" option4Action={() => sortListingsByCategory("Funding")}
-          option5="Field Trips" option5Action={() => sortListingsByCategory("Field Trips")}
-          option6="Supplies" option6Action={() => sortListingsByCategory("Supplies")}
-          option7="Services" option7Action={() => sortListingsByCategory("Services")}
-          option8="Community" option8Action={() => sortListingsByCategory("Community")}
-        />
-
-        <OpenableMenu
-          title='Sort By Location'
-          option1="Ascending" option1Action={() => sortListingsByLocation(false)}
-          option2="Descending" option2Action={() => sortListingsByLocation(true)}
-        />
-
-      <button className=" px-4 py-1 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-600" onClick={exportToCSV}>Export to CSV</button>
-
-      <form onSubmit={handleSubmit} className="relative">
-        
-      <input
-        type="text"
-        placeholder="Search"
-        value={searchTerm}
-        onChange={handleChange}
-        className="rounded-full w-96 pl-10 pr-4 py-1 border border-gray-300 w-1rounded-lg focus:outline-none focus:border-red-500"
-      />
-
-      <AiOutlineSearch
-        className="absolute top-0 left-0 m-2 text-gray-400 pointer-events-none"
-        style={{ fontSize: '1rem' }}
-      />
-
-      </form>
-
-      </div>
-
-
-   
-    </div>
-    
-     
-
-    <Container>
-      
-      <div 
-        className="
-          pt-14
-          flex
-          flex-wrap
-          justify-start
-          gap-8
-
-        "
-      >
-        <div style={{ width: '100%'}}></div>
-
-        {sortedListings.map((listing: any) => (
-          <ListingRow
-            currentUser={currentUser}
-            key={listing.id}
-            data={listing}
+      <div className="z-10 fixed w-full flex flex-row items-center justify-between space-x-4 py-4 px-4">
+        <div className="flex flex-row items-center space-x-4">
+          <OpenableMenu
+            title='Sort By Alphabet'
+            option1="Ascending" option1Action={() => sortListingsByAlphabet(false)}
+            option2="Descending" option2Action={() => sortListingsByAlphabet(true)}
           />
-        ))}
+          <OpenableMenu
+            title='Sort By Type of Organization'
+            option1="Government" option1Action={() => sortListingsByOrganization("government")}
+            option2="For-Profit" option2Action={() => sortListingsByOrganization("for")}
+            option3="Non-Profit" option3Action={() => sortListingsByOrganization("non")}
+          />
+          <OpenableMenu
+            title='Sort By Resources Available'
+            option1="Scholarships" option1Action={() => sortListingsByCategory("Scholarships")}
+            option2="Apprenticeships" option2Action={() => sortListingsByCategory("Apprenticeships")}
+            option3="Discounts" option3Action={() => sortListingsByCategory("Discounts")}
+            option4="Funding" option4Action={() => sortListingsByCategory("Funding")}
+            option5="Field Trips" option5Action={() => sortListingsByCategory("Field Trips")}
+            option6="Supplies" option6Action={() => sortListingsByCategory("Supplies")}
+            option7="Services" option7Action={() => sortListingsByCategory("Services")}
+            option8="Community" option8Action={() => sortListingsByCategory("Community")}
+          />
+          <OpenableMenu
+            title='Sort By Location'
+            option1="Ascending" option1Action={() => sortListingsByLocation(false)}
+            option2="Descending" option2Action={() => sortListingsByLocation(true)}
+          />
+          <button className="px-4 py-1 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-600" onClick={exportToCSV}>Export to CSV</button>
+          <form onSubmit={handleSubmit} className="relative">
+            <input
+              type="text"
+              placeholder="Search"
+              value={searchTerm}
+              onChange={handleChange}
+              className="rounded-full w-96 pl-10 pr-4 py-1 border border-gray-300 rounded-lg focus:outline-none focus:border-red-500"
+            />
+            <AiOutlineSearch
+              className="absolute top-0 left-0 m-2 text-gray-400 pointer-events-none"
+              style={{ fontSize: '1rem' }}
+            />
+          </form>
+        </div>
+        <div className="flex space-x-4">
+          {selectedListings.size > 0 && (
+            <>
+          <button className="px-2 py-1 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-600" onClick={handleDeleteAll}>
+            Delete Selected ({selectedListings.size})
+          </button>
+
+            </>
+            )}
+          </div>
       </div>
-    </Container>
+      <Container>
+        <div className="pt-14 flex flex-wrap justify-start gap-8">
+          <div style={{ width: '100%'}}></div>
+          {sortedListings.map((listing: any) => (
+            <ListingRow
+              currentUser={currentUser}
+              key={listing.id}
+              data={listing}
+              onCheckboxClick={handleCheckboxClick}
+            />
+          ))}
+        </div>
+      </Container>
     </>
   );
 };   

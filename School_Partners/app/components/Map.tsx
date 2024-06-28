@@ -1,13 +1,5 @@
 'use client';
 
-import L from 'leaflet';
-import { MapContainer, TileLayer } from 'react-leaflet'
-
-import 'leaflet/dist/leaflet.css'
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import { useMemo, useState } from 'react';
 import { Status, Wrapper } from '@googlemaps/react-wrapper';
 
@@ -19,17 +11,6 @@ import {
   Pin,
   InfoWindow,
 } from "@vis.gl/react-google-maps";
-
-
-
-
-// @ts-ignore
-delete L.Icon.Default.prototype._getIconUrl; 
-L.Icon.Default.mergeOptions({
-    iconUrl: markerIcon.src,
-    iconRetinaUrl: markerIcon2x.src,
-    shadowUrl: markerShadow.src,
-});
 
 type LatLng = {
   lat: number;
@@ -52,9 +33,9 @@ const MyMap: React.FC<MapProps> = ({ position, listings }) => {
   if (position != null && listings == null) {
     return (
       <>
-      <APIProvider apiKey={""}>
+      <APIProvider apiKey={"AIzaSyCRBTWSv2ba1wJUY0RBDptXf7KD8h--zqE"}>
         <div className='h-96'>
-          <Map defaultZoom={9} defaultCenter={position} mapId={""}>
+          <Map defaultZoom={9} defaultCenter={position} mapId={"ffe9c9316b601969"}>
             <AdvancedMarker position={position} onClick={() => setOpen(true)}>
               <Pin
                 background={"grey"}
@@ -74,7 +55,7 @@ const MyMap: React.FC<MapProps> = ({ position, listings }) => {
       </>
     );
   }
-
+  
   return (
     <></>
   )

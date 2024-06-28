@@ -35,7 +35,8 @@ const RegisterModal= () => {
     defaultValues: {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      address: ''
     },
   });
 
@@ -87,6 +88,15 @@ const RegisterModal= () => {
         id="password"
         label="Password"
         type="password"
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+        required
+      />
+      <Input
+        id="schoolLocation"
+        label="Address"
+        type="address"
         disabled={isLoading}
         register={register}
         errors={errors}

@@ -1,15 +1,8 @@
-'use client';
+'use client'
+import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 
-import Select from 'react-select'
-
-import useCountries from '@/app/hooks/useCountries';
+import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
 import usePlacesAutocomplete, {getGeocode, getLatLng} from 'use-places-autocomplete';
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
-import {useState, useMemo} from "react"
-
-import {ComboBox, Item, Section} from '@adobe/react-spectrum'
-import useOnclickOutside from 'react-cool-onclickoutside';
-
 
 interface LocationSelectProps {
   values?: any;
@@ -17,84 +10,56 @@ interface LocationSelectProps {
 }
 
 
-const Places: React.FC<LocationSelectProps> = ({values, onChange}) => {
+const AutocompletePlaces: React.FC<LocationSelectProps> = ({values, onChange}) => {
+  
+  const [placeAutocomplete, setPlaceAutocomplete] =
+    useState<google.maps.places.Autocomplete | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const places = useMapsLibrary('places');
 
-  const libraries = useMemo(() => ['places'], []);
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "",
-    libraries: libraries as any,
-  });
+  const handleInputChange = () => {
+    if (!placeAutocomplete || !inputRef.current) return;
 
-
-  const {
-    ready,
-    value,
-    suggestions: { status, data },
-    setValue,
-    clearSuggestions,
-  } = usePlacesAutocomplete({
-    callbackName: "YOUR_CALLBACK_NAME",
-    requestOptions: {
-      /* Define search scope here */
-    },
-    debounce: 300,
-  });
- 
-
-  const handleInput = (e: any) => {
-    // Update the keyword of the input element
-    setValue(e.target.value);
-    
+    const inputValue = inputRef.current.value;
+    console.log("Input Value:", inputValue);
   };
 
-  const handleSelect = ({ description }: any) =>() => {
-     
-      setValue(description, false);
-      
-      // Get latitude and longitude via utility functions
-      getGeocode({ address: description }).then((results) => {
-        const { lat, lng } = getLatLng(results[0]);
-        //console.log("📍 Coordinates: ", { lat, lng });
+  useEffect(() => {
+    if (!places || !inputRef.current) return;
 
-        onChange({lat, lng, description})
+    const options = {
+      fields: ['geometry', 'name', 'formatted_address']
+    };
+
+    setPlaceAutocomplete(new places.Autocomplete(inputRef.current, options));
+  }, [places]);
+
+  useEffect(() => {
+    if (!placeAutocomplete) return;
     
+  
+    placeAutocomplete.addListener('place_changed', () => {
+      
+      
+      getGeocode({ address: placeAutocomplete.getPlace().formatted_address }).then((results) => {
+        const { lat, lng } = getLatLng(results[0]);
+        console.log("📍 Coordinates: ", { lat, lng });
+
+        onChange({address: placeAutocomplete.getPlace().formatted_address, lat: lat,  lng:lng});
       });
 
       
-    };
-  
-    const renderSuggestions = () =>
-  data.map((suggestion) => {
-    const {
-      place_id,
-      structured_formatting: { main_text, secondary_text },
-    } = suggestion;
+    });
+  }, [onChange, placeAutocomplete]);
 
-    return (
-      <li key={place_id} onClick={handleSelect(suggestion)} className="cursor-pointer hover:bg-gray-100 p-1 border border-gray-200 rounded-md">
-      <div className="p-1">
-        <div className="text-base font-semibold">{main_text}</div>
-        <div className="text-xs text-gray-600">{secondary_text}</div>
-      </div>
-    </li>
-    );
-  });
-
-  if (!isLoaded) return <div>Loading...</div>;
- 
   return (
-    <div className="z-10">
-      <input
-        id="inputField"
-        value={value}
-        onChange={handleInput}
-        placeholder="Where is it located?"
-        className="w-full border rounded px-4 py-2 focus:outline-none focus:border-blue-500"
-      />
-      {/* We can use the "status" to decide whether we should display the dropdown or not */}
-      {<ul className="mt-2 overflow-y-auto max-h-40 ">{renderSuggestions()}</ul>}
+    <>
+    <div className="autocomplete-container">
+      <input ref={inputRef} className="w-full border rounded px-4 py-2 focus:outline-none focus:border-blue-500"/>
     </div>
+    </>
   );
 };
 
-export default Places;
+
+export default AutocompletePlaces

@@ -8,8 +8,8 @@ import { SafeUser } from "@/app/types";
 import useLoginModal from "./useLoginModal";
 
 interface IUseFavorite {
-  listingId: string;
-  currentUser?: SafeUser | null
+  listingId?: any;
+  currentUser?: SafeUser | null;
 }
 
 const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
@@ -54,9 +54,34 @@ const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
     router
   ]);
 
+  const toggleFavoriteById = async (id: any) => {
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+
+    try {
+      const list = currentUser?.favoriteIds || [];
+
+      let request;
+
+     
+     
+      request = () => axios.post(`/api/favorites/${id}`);
+      
+
+      await request();
+      router.refresh();
+      toast.success(id);
+    } catch (error) {
+      toast.error('Something went wrong.');
+    }
+  }
+
+
   return {
     hasFavorited,
     toggleFavorite,
+    toggleFavoriteById,
   }
 }
 

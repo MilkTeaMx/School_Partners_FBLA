@@ -2,8 +2,10 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { format } from 'date-fns';
+
+import { motion } from "framer-motion";
 
 import useCountries from "@/app/hooks/useCountries";
 import { 
@@ -21,6 +23,7 @@ interface ListingCardProps {
   data: SafeListing;
   reservation?: SafeReservation;
   onAction?: (id: string) => void;
+  onCheckboxClick?: (id: string, checked: boolean) => void;
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;
@@ -31,12 +34,14 @@ const ListingCard: React.FC<ListingCardProps> = ({
   data,
   reservation,
   onAction,
+  onCheckboxClick,
   disabled,
   actionLabel,
   actionId = '',
   currentUser,
 }) => {
   const router = useRouter();
+  const [isChecked, setIsChecked] = useState(false);
 
   const location = data.locationValue
 
@@ -51,13 +56,11 @@ const ListingCard: React.FC<ListingCardProps> = ({
     onAction?.(actionId)
   }, [disabled, onAction, actionId]);
 
-  const price = useMemo(() => {
-    if (reservation) {
-      return reservation.totalPrice;
-    }
-
-    return data.price;
-  }, [reservation, data.price]);
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation(); // Prevent the click from propagating to the parent div
+    setIsChecked(e.target.checked);
+    onCheckboxClick?.(data.id, e.target.checked);
+  };
 
   const reservationDate = useMemo(() => {
     if (!reservation) {
@@ -71,26 +74,30 @@ const ListingCard: React.FC<ListingCardProps> = ({
   }, [reservation]);
 
   const formatPhoneNumber = (phoneNumber: string) => {
-    // Remove all non-digit characters from the phone number
     const digitsOnly = phoneNumber.replace(/\D/g, '');
-  
-    // Format the phone number as (###) ###-####
     const formattedPhoneNumber = digitsOnly.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-  
     return formattedPhoneNumber;
   };
 
   return (
-    <div 
-      onClick={() => router.push(`/listings/${data.id}`)} 
-      className="w-full cursor-pointer group border-b border-gray-200 py-2 relative flex items-center" // Applied flex and items-center to center elements vertically
+    <motion.div
+
+      className="w-full cursor-pointer group border-b border-gray-200 py-2 relative flex items-center"
+      initial={{ opacity: 0, translateY: 40 }}
+      animate={{ opacity: 1, translateY: 0 }}
+      transition={{ duration: 0.8 }}
     >
-      <div className="font-medium text-base w-1/5"> {/* Fixed width for title */}
+      <input
+        type="checkbox"
+        checked={isChecked}
+        onChange={handleCheckboxChange}
+        className="mr-2" // Add some margin to the right for spacing
+      />
+      <div className="font-medium text-base w-1/5" onClick={() => router.push(`/listings/${data.id}`)}>
         {data.title}
       </div>
-  
-      <div className="border-l border-gray-300 h-4 w-1/12"></div> {/* Fixed width for vertical line */}
-      <div className="flex flex-col w-1/6"> {/* Smaller width for location */}
+      <div className="border-l border-gray-300 h-4 w-1/12"></div>
+      <div className="flex flex-col w-1/6">
         <div>
           {location}
         </div>
@@ -102,14 +109,12 @@ const ListingCard: React.FC<ListingCardProps> = ({
         <Button
           disabled={disabled}
           small
-          label={actionLabel} 
+          label={actionLabel}
           onClick={handleCancel}
         />
       )}
-  
-      <div className="border-l border-gray-300 h-4 w-1/12"></div> {/* Fixed width for vertical line */}
-  
-      <div className="flex flex-col w-1/6"> {/* Smaller width for phone number and email */}
+      <div className="border-l border-gray-300 h-4 w-1/12"></div>
+      <div className="flex flex-col w-1/6">
         <div>
           {formatPhoneNumber(data.phoneNumber)}
         </div>
@@ -117,22 +122,18 @@ const ListingCard: React.FC<ListingCardProps> = ({
           {data.email}
         </div>
       </div>
-  
-      <div className="border-l border-gray-300 h-4 w-1/12"></div> {/* Fixed width for vertical line */}
-      <div className="font-normal text-sm w-1/3"> {/* Larger width for description */}
+      <div className="border-l border-gray-300 h-4 w-1/12"></div>
+      <div className="font-normal text-sm w-1/3">
         {data.description}
       </div>
-      <div className="top-1 right-1"> {/* Adjusted positioning */}
-        <HeartButton 
-          listingId={data.id} 
+      <div className="top-1 right-1 pl-5">
+        <HeartButton
+          listingId={data.id}
           currentUser={currentUser}
         />
       </div>
-    </div>
+    </motion.div>
   );
-  
-  
-}
+};
 
- 
 export default ListingCard;

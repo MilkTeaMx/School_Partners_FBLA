@@ -63,53 +63,68 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const [eventDesc, setEventDesc] = useState('test')
 
   const onCreateReservation = useCallback(() => {
-      if (!currentUser) {
-        return loginModal.onOpen();
-      }
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+  
+    console.log(eventDesc);
+    console.log(dateRange);
+    setIsLoading(true);
+  
+    axios.post('/api/reservations', {
 
-      console.log(eventDesc)
-      console.log(dateRange)
-      setIsLoading(true);
-      //SEND GOOGLE INVITE
+      startDate: dateRange.startDate,
+      endDate: dateRange.endDate,
+      listingId: listing?.id,
+      description: eventDesc,
       
-
-      axios.post('/api/sendEmail', {
-        listingId: listing?.id,
-        startDate: dateRange.startDate,
-        endDate: dateRange.endDate,
-        orgEmail: listing.email,
-        description: eventDesc,
-      })
-      .then(() => {
-        toast.success('Email Sent');
-        router.push('/');
-      })
-      .catch(() => {
-        toast.error('Something went wrong.');
-      })
-      .finally(() => {
-        setIsLoading(false);
-      })
-  },
-  [
-
-    dateRange, 
-    eventDesc,
+    })
+    .then(() => {
+      toast.success('Success!');
+      setDateRange(initialDateRange);
+  
+    })
+    .catch(() => {
+      toast.error('Something Went Wrong');
+    })
+    .finally(() => {
+      setIsLoading(false);
+    });
+  
+    axios.post('/api/sendEmail', {
+      listingId: listing?.id,
+      startDate: dateRange.startDate,
+      endDate: dateRange.endDate,
+      orgEmail: listing.email,
+      description: eventDesc,
+    })
+    .then(() => {
+      toast.success('Email Sent');
+      router.push('/');
+    })
+    .catch(() => {
+      toast.error('Something went wrong.');
+    })
+    .finally(() => {
+      setIsLoading(false);
+    });
+  }, [
+    dateRange,
     listing?.id,
+    eventDesc,
     router,
     currentUser,
     loginModal
   ]);
-
+  
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
       const dayCount = differenceInDays(
-        dateRange.endDate, 
+        dateRange.endDate,
         dateRange.startDate
       );
     }
-  }, [dateRange]);
-
+  }, [dateRange, listing?.price]);
   return ( 
     <Container>
       <div 

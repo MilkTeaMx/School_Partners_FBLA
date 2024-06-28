@@ -22,6 +22,7 @@ import ImageUpload from '../inputs/ImageUpload';
 import Input from '../inputs/Input';
 import Heading from '../Heading';
 import LocationSelect from '../inputs/LocationSelect';
+import { APIProvider } from '@vis.gl/react-google-maps';
 
 enum STEPS {
   CATEGORY = 0,
@@ -43,7 +44,7 @@ const PartnerModal = () => {
 
   const handleLocationSelect = (value: any) => {
     setLocation({lat: value.lat, lng: value.lng})
-    setCustomValue('location', value.description)
+    setCustomValue('location', value.address)
     setCustomValue('lat', value.lat)
     setCustomValue('lng', value.lng)
   }
@@ -71,6 +72,7 @@ const PartnerModal = () => {
       lng: 0,
       title: '',
       description: '',
+      publicListing: false
     }
   });
 
@@ -180,9 +182,14 @@ const PartnerModal = () => {
           title="Where is the organization located?"
           subtitle="Help us find it!"
         />
-        <LocationSelect 
-          values={coordinates} 
-          onChange={handleLocationSelect} />
+
+          <APIProvider apiKey={"AIzaSyCLLAxKmD2GPvIdhRjd0MUZZ7_L6rgeBd4"}>
+              
+          <LocationSelect values={{lat: 43.45, lng: -80.49 }} onChange={handleLocationSelect}/>
+              
+          </APIProvider>
+
+       
         <Map position={coordinates} />
       </div>
     );

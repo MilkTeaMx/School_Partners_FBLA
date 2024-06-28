@@ -14,6 +14,17 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({
   currentUser,
 }) => {
+
+  const currentDate = new Date();
+  const options = {
+    weekday: 'long' as const,
+    year: 'numeric' as const,
+    month: 'long' as const,
+    day: 'numeric' as const
+    };
+  const formattedDate = currentDate.toLocaleDateString('en-US', options);
+
+
   return ( 
     <div className="fixed w-full bg-white z-10 shadow-sm">
       <div
@@ -34,13 +45,19 @@ const Navbar: React.FC<NavbarProps> = ({
           "
         >
           <Logo />
+          <h2>
+            Welcome Back! Today is - {formattedDate}
+          </h2>
+        
           <Search />
         
           <UserMenu currentUser={currentUser} />
         </div>
       </Container>
     </div>
-    <Categories currentUser={currentUser} />
+
+    {currentUser && <Categories currentUser={currentUser} />}
+
   </div>
   );
 }
