@@ -72,7 +72,6 @@ const PartnerModal = () => {
       lng: 0,
       title: '',
       description: '',
-      publicListing: false
     }
   });
 
@@ -183,7 +182,7 @@ const PartnerModal = () => {
           subtitle="Help us find it!"
         />
 
-          <APIProvider apiKey={"AIzaSyCLLAxKmD2GPvIdhRjd0MUZZ7_L6rgeBd4"}>
+          <APIProvider apiKey={""}>
               
           <LocationSelect values={{lat: 43.45, lng: -80.49 }} onChange={handleLocationSelect}/>
               
@@ -292,8 +291,17 @@ const PartnerModal = () => {
   if (step === STEPS.PRICE) {
     bodyContent = (
       <div className="items-center flex flex-col gap-8 font-bold">
+        <div className="flex items-center gap-8 font-normal">
+          <label> Make Public? </label>
+          <input
+            type="checkbox"
+            onChange={(e) => setCustomValue('price', e.target.checked ? 1 : 0)}
+            className="mr-2" // Add some margin to the right for spacing
+          />
+        </div>
         Submit?
       </div>
+      
     )
   }
 

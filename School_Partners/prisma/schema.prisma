@@ -65,8 +65,6 @@ model Listing {
   lat Float?
   lng Float?
 
-  public Boolean?
-
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservations Reservation[]
 }

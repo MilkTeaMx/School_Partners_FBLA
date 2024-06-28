@@ -12,8 +12,6 @@ import { Pie, Line} from 'react-chartjs-2';
 import usePartnerModal from "@/app/hooks/usePartnerModal";
 import useUpdateModal from "@/app/hooks/useUpdateModal";
 
-
-
 import MyDashboardMap from './dashboardMap';
 
 ChartJS.register(
@@ -29,6 +27,7 @@ ChartJS.register(
 import usePlacesAutocomplete, {getGeocode, getLatLng} from 'use-places-autocomplete';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import LocationSelect from './inputs/LocationSelect';
+import { useRouter, useSearchParams } from "next/navigation";
 import { APIProvider } from '@vis.gl/react-google-maps';
 
 interface DashboardProps {
@@ -38,7 +37,7 @@ interface DashboardProps {
 
 const Dashboard: React.FC<DashboardProps> = ({ listings, currentUser }) => {
 
-
+    const router = useRouter();
     const [selectedPlace, setSelectedPlace] =
       useState<google.maps.places.PlaceResult | null>(null);
 
@@ -130,37 +129,40 @@ const Dashboard: React.FC<DashboardProps> = ({ listings, currentUser }) => {
     }
 
     return (
-      <Container>
-    
-        <div className="pt-12 pb-6 bg-white flex flex-col">
-          <h1 className="text-lg font-bold mb-2 justify-centers pt-8">Your Dashboard</h1>
-          <div className="flex justify-between h-2/3 p-2 border-2 border-gray-200 shadow-md">
-          
-            <div className="w-1/4 bg-red-50 p-4 rounded border border-gray-300 m-3 items-center">
-                <h2 className="text-md font-bold mb-2 justify-centers">Community Pie</h2>
-                {pieData && <Pie data={pieData} />}
-            </div>
-            <div className="w-1/3 bg-yellow-50 p-4 rounded border border-gray-300 m-3">
-              <div className='pt-4'>
-                {true && <MyDashboardMap listings={listings}/>}
-              </div>
-          
-              
-            </div>
-            <div className="w-2/5 bg-blue-50 p-4 rounded border border-gray-300 m-3">
-              <h2 className="text-md font-bold mb-2 justify-centers"># of Partnerships Created</h2>
-              {plotData && <Line data={plotData} />}
-            </div>
-
-
+  <Container>
+    <div className="pt-12 pb-6 bg-white flex flex-col">
+      <h1 className="text-lg font-bold mb-2 justify-centers pt-8">Your Dashboard</h1>
+      <div className="flex justify-between h-2/3 p-2 border-2 border-gray-200 shadow-md">
+        
+        <div className="w-1/4 bg-red-50 p-4 rounded border border-gray-300 m-3 items-center">
+          <h2 className="text-md font-bold mb-2 justify-centers">Community Pie</h2>
+          {pieData && <Pie data={pieData} />}
+        </div>
+        
+        <div className="w-1/3 bg-green-50 p-4 rounded border border-gray-300 m-3">
+          <div className="pt-8">
+            {true && <MyDashboardMap listings={listings}/>}
           </div>
-
-     
+        </div>
+        
+        <div className="w-2/5 flex flex-col">
+          <div className="bg-blue-50 p-4 rounded-t border border-gray-300 m-3">
+            <h2 className="text-md font-bold mb-2 justify-centers"># of Partnerships Created</h2>
+            {plotData && <Line data={plotData} />}
+          </div>
+          <div className="bg-purple-100 p-4 rounded-b border border-gray-300 m-3 cursor-pointer transition transform hover:scale-105 hover:bg-purple-100" 
+             onClick={() => router.push("/explore")}
+          >
+            <h2 className="text-md font-bold mb-2 underline">Explore More</h2>
+            <p>Explore some personalized partnership recommendations</p>
+  
+          </div>
         </div>
 
-
-        </Container>
-      );
-    };
-    
-export default Dashboard;
+      </div>
+    </div>
+  </Container>
+);
+  };
+  
+  export default Dashboard;

@@ -25,6 +25,7 @@ import Input from '../inputs/Input';
 import Heading from '../Heading';
 import { SafeListing } from '@/app/types';
 import LocationSelect from '../inputs/LocationSelect';
+import { APIProvider } from '@vis.gl/react-google-maps';
 
 enum STEPS {
   CATEGORY = 0,
@@ -192,9 +193,14 @@ const UpdateModal: React.FC<UpdateModalProps>  = ({ listing }) => {
           title="Where is the organization located?"
           subtitle="Help us find it!"
         />
-        <LocationSelect 
-          values={coordinates} 
-          onChange={handleLocationSelect} />
+
+          <APIProvider apiKey={""}>
+              
+          <LocationSelect values={{lat: 43.45, lng: -80.49 }} onChange={handleLocationSelect}/>
+              
+          </APIProvider>
+
+       
         <Map position={coordinates} />
       </div>
     );
@@ -297,8 +303,17 @@ const UpdateModal: React.FC<UpdateModalProps>  = ({ listing }) => {
   if (step === STEPS.PRICE) {
     bodyContent = (
       <div className="items-center flex flex-col gap-8 font-bold">
+        <div className="flex items-center gap-8 font-normal">
+          <label> Make Public? </label>
+          <input
+            type="checkbox"
+            onChange={(e) => setCustomValue('price', e.target.checked ? 1 : 0)}
+            className="mr-2" // Add some margin to the right for spacing
+          />
+        </div>
         Submit?
       </div>
+      
     )
   }
 

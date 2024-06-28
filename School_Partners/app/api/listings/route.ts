@@ -23,7 +23,6 @@ export async function POST(
     imageSrc,
     lat,
     lng,
-    publicListing,
     price,
     title,
     description,
@@ -47,8 +46,7 @@ export async function POST(
       locationValue: location,
       lat,
       lng,
-      publicListing,
-      price: parseInt(price, 10),
+      price,
       userId: currentUser.id
     }
   });

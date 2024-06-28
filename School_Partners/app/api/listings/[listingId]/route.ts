@@ -76,9 +76,7 @@ export async function PUT(
 
       lat: body.lat,
       lng: body.lng,
-      price: body.price,
-
-      publicListing: body.publicListing
+      price: body.price
     }
 
     

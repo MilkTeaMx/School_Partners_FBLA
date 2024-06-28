@@ -56,11 +56,11 @@ const MyDashboardMap: React.FC<MapProps> = ({ position, listings }) => {
   //If want to be able to move
   return (
     <>
-    <APIProvider apiKey={"AIzaSyCLLAxKmD2GPvIdhRjd0MUZZ7_L6rgeBd4"}>
+    <APIProvider apiKey={""}>
       <div className='h-96'>
-         <Map defaultZoom={10} defaultCenter={{lat: 42.58, lng: -83.23}} mapId={"8e9104aca2da6600"}>
+         <Map defaultZoom={10} defaultCenter={position} mapId={"8e9104aca2da6600"}>
 
-            <AdvancedMarker position={{lat: 42.58, lng: -83.23}} zIndex={10}>
+            <AdvancedMarker position={position} zIndex={10}>
               <img src={"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Round_Landmark_School_Icon_-_Transparent.svg/768px-Round_Landmark_School_Icon_-_Transparent.svg.png"} width={45} height={45} />
             </AdvancedMarker>
 

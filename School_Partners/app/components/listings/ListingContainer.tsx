@@ -46,7 +46,7 @@ const ListingsContainer: React.FC<ListingContainerProps> = ({ listings, currentU
 
 const ListingItem = ({ listing, index, currentUser }: any) => {
   const controls = useAnimation();
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.25 });
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.15 });
 
   useEffect(() => {
     if (inView) {
@@ -55,7 +55,7 @@ const ListingItem = ({ listing, index, currentUser }: any) => {
         translateY: 0,
         transition: {
           duration: 0.5,
-          delay: index * 0.03
+          delay: index * 0.05
         }
       });
     }
