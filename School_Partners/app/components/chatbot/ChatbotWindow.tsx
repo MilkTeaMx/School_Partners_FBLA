@@ -10,14 +10,16 @@ interface ChatbotProps {
 }
 const ChatbotWindow: React.FC<ChatbotProps> = ({currentUser, listings}) => {
 
-    if (currentUser == null) {
-      return (<></>)
-    }
+  
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleOpen = useCallback(() => {
       setIsOpen((value) => !value);
     }, []);
+
+    if (currentUser == null) {
+      return (<></>)
+    }
 
     
     return (
