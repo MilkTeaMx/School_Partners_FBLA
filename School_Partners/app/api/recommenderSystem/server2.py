@@ -9,7 +9,7 @@ import numpy as np
 app = Flask(__name__)
 CORS(app)
 
-PRIVATE = ""
+PRIVATE = "max:123"
 
 def get_database():
     CONNECTION_STRING = f"mongodb+srv://{PRIVATE}@test.ypmxjhw.mongodb.net"

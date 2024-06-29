@@ -194,7 +194,7 @@ const UpdateModal: React.FC<UpdateModalProps>  = ({ listing }) => {
           subtitle="Help us find it!"
         />
 
-          <APIProvider apiKey={""}>
+          <APIProvider apiKey={"AIzaSyCLLAxKmD2GPvIdhRjd0MUZZ7_L6rgeBd4"}>
               
           <LocationSelect values={{lat: 43.45, lng: -80.49 }} onChange={handleLocationSelect}/>
               
