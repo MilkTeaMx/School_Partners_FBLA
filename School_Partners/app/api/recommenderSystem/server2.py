@@ -4,7 +4,7 @@ from pymongo import MongoClient
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.neighbors import NearestNeighbors
 from bson import ObjectId
-import numpy as np
+import numpy as np 
 
 app = Flask(__name__)
 CORS(app)

@@ -1,5 +1,5 @@
 "use client"
-import ChatbotClient from "@/app/chatbot/ChatbotClient";
+import ChatbotClient from "@/app/components/chatbot/ChatbotClient";
 import { useCallback, useState } from "react";
 import { IoMdChatbubbles } from "react-icons/io";
 import { motion } from 'framer-motion';

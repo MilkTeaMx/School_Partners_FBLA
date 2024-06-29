@@ -28,6 +28,7 @@ const RegisterModal= () => {
   const { 
     register, 
     handleSubmit,
+    watch,
     formState: {
       errors,
     },
@@ -40,8 +41,16 @@ const RegisterModal= () => {
     },
   });
 
+  const watchPassword = watch('password');
+
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
+    
+    if (watchPassword.length < 6) {
+      toast.error('Password must be at least 6 characters long');
+      setIsLoading(false);
+      return;
+    }
 
     axios.post('/api/register', data)
     .then(() => {
@@ -92,6 +101,7 @@ const RegisterModal= () => {
         register={register}
         errors={errors}
         required
+
       />
       <Input
         id="schoolLocation"

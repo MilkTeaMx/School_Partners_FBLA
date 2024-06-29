@@ -51,14 +51,6 @@ const ListingCard: React.FC<ListingCardProps> = ({
     onAction?.(actionId)
   }, [disabled, onAction, actionId]);
 
-  const price = useMemo(() => {
-    if (reservation) {
-      return reservation.totalPrice;
-    }
-
-    return data.price;
-  }, [reservation, data.price]);
-
   const reservationDate = useMemo(() => {
     if (!reservation) {
       return null;
